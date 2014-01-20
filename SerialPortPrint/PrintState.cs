@@ -14,16 +14,16 @@ namespace SerialPortPrint
         /// <summary>
         /// 打印机异常
         /// </summary>
-        Error=-1,
+        Error = -1,
         /// <summary>
         /// 正常
         /// </summary>
-        Normal=96,
+        Normal = 96,
         /// <summary>
         /// 缺纸
         /// </summary>
-        Nopaper=108
+        Nopaper = 108
 
-       
+
     }
 }

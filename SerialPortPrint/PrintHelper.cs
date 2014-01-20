@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.IO;
+#if ANDROID
+using Android.Graphics;
+#else
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO.Ports;
+#endif
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +21,7 @@ namespace SerialPortPrint
     /// </summary>
     public class PrintHelper
     {
+
         SerialPort server = new SerialPort();
         bool isPrintOk = false;
         private string _portName = "COM4";

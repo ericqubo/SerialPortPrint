@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+
+#if ANDROID
+using Android.Graphics;
+#else
 using System.Drawing;
 using System.Drawing.Drawing2D;
+#endif
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,8 +40,10 @@ namespace SerialPortPrint
             Bitmap rszBitmap = resizeImage(mBitmap, width, height);
 
             byte[] src = bitmapToBWPix(rszBitmap);
-
             byte[] data = pixToCmd(src, width, nMode);
+
+            rszBitmap.Dispose();
+            rszBitmap = null;
 
             return data;
 
@@ -44,20 +52,26 @@ namespace SerialPortPrint
 
         public static Bitmap resizeImage(Bitmap bitmap, int w, int h)
         {
-            Bitmap BitmapOrg = bitmap;
+            Bitmap bitmapOrg = bitmap;
 
-            int width = BitmapOrg.Width;
-
-            int height = BitmapOrg.Height;
-
+            int width = bitmapOrg.Width;
+            int height = bitmapOrg.Height;
             int newWidth = w;
-
             int newHeight = h;
 
             float scaleWidth = newWidth / width;
-
             float scaleHeight = newHeight / height;
 
+#if ANDROID
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, newWidth, newHeight);
+
+            Matrix matrix = new Matrix();
+            matrix.PostScale(scaleWidth, scaleHeight);// 产生缩放后的Bitmap对象
+
+            Bitmap bmp = Bitmap.CreateBitmap(bitmapOrg, 0, 0, width, height, matrix, false);
+            bitmapOrg.Recycle();
+            bitmapOrg = null;
+#else
             Bitmap bmp = new Bitmap(newWidth, newHeight);
             Graphics g = Graphics.FromImage(bmp);
             
@@ -67,9 +81,13 @@ namespace SerialPortPrint
             // 改变图像大小使用低质量的模式 
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
 
-            g.DrawImage(BitmapOrg, new Rectangle(0, 0, newWidth, newWidth), new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
-            string newImg = "aa.jpg";
-            bmp.Save(newImg);
+            g.DrawImage(bitmapOrg, new Rectangle(0, 0, newWidth, newWidth), new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
+            
+            bitmapOrg.Dispose();
+            bitmapOrg = null;
+            //bmp.Save(newImg);
+#endif
+
 
 
             /*  
@@ -100,9 +118,7 @@ namespace SerialPortPrint
         }
 
         public static int[] RGB2Gray(Bitmap srcBitmap)
-        {
-            
-            Color srcColor;
+        {            
             int wide = srcBitmap.Width;
             int height = srcBitmap.Height;
             int[] regIng = new int[wide * height];
@@ -110,9 +126,12 @@ namespace SerialPortPrint
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < wide; x++)
                 {
+#if ANDROID
+                    regIng[index] = srcBitmap.GetPixel(x, y);
+#else
                     //获取像素的ＲＧＢ颜色值
-                    srcColor = srcBitmap.GetPixel(x, y);
-                    regIng[index] = srcColor.ToArgb(); //GetCustomColor(srcColor);
+                    regIng[index] = srcBitmap.GetPixel(x, y).ToArgb(); //GetCustomColor(srcColor);
+#endif
                     index++;
                     
                 }
