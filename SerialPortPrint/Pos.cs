@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SerialPortPrint
 {
+    /// <summary>
+    /// 图片转打印命令
+    /// </summary>
     public class Pos
     {
         private static int[] p0 = { 0, 128 };

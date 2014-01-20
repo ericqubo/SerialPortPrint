@@ -1,0 +1,7 @@
+*.pdb
+*.suo
+*.user
+bin
+obj
+
+log

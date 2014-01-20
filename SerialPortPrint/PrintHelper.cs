@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace SerialPortPrint
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PrintHelper
     {
         SerialPort server = new SerialPort();
