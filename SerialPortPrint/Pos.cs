@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace SerialPortPrint
 {
     /// <summary>
@@ -62,6 +64,7 @@ namespace SerialPortPrint
             float scaleWidth = newWidth / width;
             float scaleHeight = newHeight / height;
 
+
 #if ANDROID
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, newWidth, newHeight);
 
@@ -71,6 +74,8 @@ namespace SerialPortPrint
             Bitmap bmp = Bitmap.CreateBitmap(bitmapOrg, 0, 0, width, height, matrix, false);
             bitmapOrg.Recycle();
             bitmapOrg = null;
+
+           
 #else
             Bitmap bmp = new Bitmap(newWidth, newHeight);
             Graphics g = Graphics.FromImage(bmp);

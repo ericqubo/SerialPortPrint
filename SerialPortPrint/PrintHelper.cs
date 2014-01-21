@@ -52,7 +52,6 @@ namespace SerialPortPrint
             server.PortName = _portName;//端口名称
             server.WriteTimeout = -1;//超时时间
             server.ReadTimeout = -1;//超时时间
-            
         }
         public bool PrintInit(out string err) {
             err = "";
