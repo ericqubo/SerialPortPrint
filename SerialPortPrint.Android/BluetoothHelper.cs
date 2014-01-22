@@ -199,6 +199,10 @@ namespace SerialPortPrint
                 chatService.Stop();
             disposed = true;
         }
+        ~BluetoothHelper()
+        {
+            Dispose(false);
+        }
     }
 
 }
