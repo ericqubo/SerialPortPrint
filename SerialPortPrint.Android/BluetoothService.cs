@@ -23,7 +23,7 @@ using Android.Util;
 using Java.Lang;
 using Java.Util;
 
-namespace BluetoothPrint.Android
+namespace BluetoothPrint
 {
 	/// <summary>
 	/// This class does all the work for setting up and managing Bluetooth

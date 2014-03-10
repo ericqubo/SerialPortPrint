@@ -11,7 +11,7 @@ using SerialPortPrint;
 using Android.Bluetooth;
 using Android.Graphics;
 using Java.IO;
-using BluetoothPrint.Android;
+using BluetoothPrint;
 
 namespace Test
 {

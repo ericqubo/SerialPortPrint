@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BluetoothPrint.Win
+namespace BluetoothPrint
 {
     public class BluetoothHelper:IDisposable
     {

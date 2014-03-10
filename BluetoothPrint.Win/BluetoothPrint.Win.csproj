@@ -7,7 +7,7 @@
     <ProjectGuid>{2C46F71C-61B5-4DBA-A2C5-79D96B64D345}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BluetoothPrint.Win</RootNamespace>
+    <RootNamespace>BluetoothPrint</RootNamespace>
     <AssemblyName>BluetoothPrint.Win</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
