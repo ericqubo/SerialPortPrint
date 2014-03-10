@@ -237,9 +237,9 @@ namespace SerialPortPrint
                 {
                     cmdData[6 + i] = data[i];
                 }
-                PrintQueue.QueueList.Enqueue(cmdData);
-                CheckPrintState(out err);
-                //SendData(cmdData, out err);
+                //PrintQueue.QueueList.Enqueue(cmdData);
+                //CheckPrintState(out err);
+                SendData(cmdData, out err);
                 return true;
             }
             catch (Exception ex)

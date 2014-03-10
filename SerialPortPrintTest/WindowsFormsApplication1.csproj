@@ -89,7 +89,7 @@
     <Content Include="img\Test.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="tt.png" />
+    <Content Include="img\tt.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SerialPortPrint\SerialPortPrint.csproj">
