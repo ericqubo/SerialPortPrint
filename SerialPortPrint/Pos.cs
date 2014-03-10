@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 
 
-namespace SerialPortPrint
+namespace PrintBase
 {
     /// <summary>
     /// 图片转打印命令
@@ -75,7 +75,7 @@ namespace SerialPortPrint
             bitmapOrg.Recycle();
             bitmapOrg = null;
 
-           
+
 #else
             Bitmap bmp = new Bitmap(newWidth, newHeight);
             Graphics g = Graphics.FromImage(bmp);
@@ -86,11 +86,11 @@ namespace SerialPortPrint
             // 改变图像大小使用低质量的模式 
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
 
-            g.DrawImage(bitmapOrg, new Rectangle(0, 0, newWidth, newWidth), new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
+            g.DrawImage(bitmapOrg, new Rectangle(0, 0, newWidth, newHeight), new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
             
             bitmapOrg.Dispose();
             bitmapOrg = null;
-            //bmp.Save(newImg);
+            //bmp.Save("aa.jpg", System.Drawing.Imaging.ImageFormat.Png);
 #endif
 
 
@@ -123,23 +123,26 @@ namespace SerialPortPrint
         }
 
         public static int[] RGB2Gray(Bitmap srcBitmap)
-        {            
+        {
             int wide = srcBitmap.Width;
             int height = srcBitmap.Height;
             int[] regIng = new int[wide * height];
-            int index=0;
+
+#if ANDROID
+            srcBitmap.GetPixels(regIng, 0, wide, 0, 0, wide, height);
+#else
+           int index=0;
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < wide; x++)
                 {
-#if ANDROID
-                    regIng[index] = srcBitmap.GetPixel(x, y);
-#else
                     //获取像素的ＲＧＢ颜色值
                     regIng[index] = srcBitmap.GetPixel(x, y).ToArgb(); //GetCustomColor(srcColor);
-#endif
+
                     index++;
                     
                 }
+        
+#endif
             return regIng;
         }
 

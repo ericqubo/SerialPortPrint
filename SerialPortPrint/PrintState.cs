@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SerialPortPrint
+namespace PrintBase
 {
     /// <summary>
     /// 打印机状态

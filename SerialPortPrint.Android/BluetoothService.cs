@@ -23,7 +23,7 @@ using Android.Util;
 using Java.Lang;
 using Java.Util;
 
-namespace SerialPortPrint
+namespace BluetoothPrint.Android
 {
 	/// <summary>
 	/// This class does all the work for setting up and managing Bluetooth
@@ -31,10 +31,10 @@ namespace SerialPortPrint
 	/// incoming connections, a thread for connecting with a device, and a
 	/// thread for performing data transmissions when connected.
 	/// </summary>
-	class BluetoothChatService
+	class BluetoothService
 	{
 		// Debugging
-		private const string TAG = "BluetoothChatService";
+		private const string TAG = "BluetoothService";
 		private const bool Debug = true;
 	
 		// Name for the SDP record when creating server socket
@@ -67,7 +67,7 @@ namespace SerialPortPrint
 		/// <param name='handler'>
 		/// A Handler to send messages back to the UI Activity.
 		/// </param>
-		public BluetoothChatService (Handler handler)
+		public BluetoothService (Handler handler)
 		{
 			_adapter = BluetoothAdapter.DefaultAdapter;
 			_state = STATE_NONE;
@@ -203,7 +203,9 @@ namespace SerialPortPrint
 			// Send the name of the connected device back to the UI Activity
             var msg = _handler.ObtainMessage(BluetoothHelper.MESSAGE_DEVICE_NAME);
 			Bundle bundle = new Bundle ();
+            
             bundle.PutString(BluetoothHelper.DEVICE_NAME, device.Name);
+            bundle.PutString(BluetoothHelper.DEVICE_ADDRESS, device.Address);
 			msg.Data = bundle;
 			_handler.SendMessage (msg);
 	
@@ -297,9 +299,9 @@ namespace SerialPortPrint
 		{
 			// The local server socket
 			private BluetoothServerSocket mmServerSocket;
-			private BluetoothChatService _service;
+			private BluetoothService _service;
 			
-			public AcceptThread (BluetoothChatService service)
+			public AcceptThread (BluetoothService service)
 			{
 				_service = service;
 				BluetoothServerSocket tmp = null;
@@ -323,7 +325,7 @@ namespace SerialPortPrint
 				BluetoothSocket socket = null;
 	
 				// Listen to the server socket if we're not connected
-				while (_service._state != BluetoothChatService.STATE_CONNECTED) {
+				while (_service._state != BluetoothService.STATE_CONNECTED) {
 					try {
 						// This is a blocking call and will only return on a
 						// successful connection or an exception
@@ -383,9 +385,9 @@ namespace SerialPortPrint
 		{
 			private BluetoothSocket mmSocket;
 			private BluetoothDevice mmDevice;
-			private BluetoothChatService _service;
+			private BluetoothService _service;
 			
-			public ConnectThread (BluetoothDevice device, BluetoothChatService service)
+			public ConnectThread (BluetoothDevice device, BluetoothService service)
 			{
 				mmDevice = device;
 				_service = service;
@@ -457,9 +459,9 @@ namespace SerialPortPrint
 			private BluetoothSocket mmSocket;
 			private Stream mmInStream;
 			private Stream mmOutStream;
-			private BluetoothChatService _service;
+			private BluetoothService _service;
 	
-			public ConnectedThread (BluetoothSocket socket, BluetoothChatService service)
+			public ConnectedThread (BluetoothSocket socket, BluetoothService service)
 			{
 				Log.Debug (TAG, "create ConnectedThread: ");
 				mmSocket = socket;
@@ -475,6 +477,8 @@ namespace SerialPortPrint
 					Log.Error (TAG, "temp sockets not created", e);
 				}
 	
+                
+                
 				mmInStream = tmpIn;
 				mmOutStream = tmpOut;
 			}

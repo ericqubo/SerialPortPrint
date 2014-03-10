@@ -13,6 +13,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PrintBase;
 
 namespace SerialPortPrint
 {
@@ -24,7 +25,7 @@ namespace SerialPortPrint
 
         SerialPort server = new SerialPort();
         bool isPrintOk = false;
-        private string _portName = "COM4";
+        //private string _portName = "COM6";
         /// <summary>
         /// 打印状态回调
         /// </summary>
@@ -35,6 +36,7 @@ namespace SerialPortPrint
         /// </summary>
         private bool IsOpen
         {
+          
             get
             {
                 return server.IsOpen;
@@ -43,21 +45,24 @@ namespace SerialPortPrint
         /// <summary>
         /// 构造方法初始化串口参数
         /// </summary>
-        public PrintHelper()
+        public PrintHelper(string portName)
         {//初始化各个参数
             server.BaudRate = 9600;//波特率
             server.Parity = 0;//校检位
             server.DataBits = 8;//数据位
             server.StopBits = StopBits.One;//停止位
-            server.PortName = _portName;//端口名称
+            server.PortName = portName;//端口名称
             server.WriteTimeout = -1;//超时时间
             server.ReadTimeout = -1;//超时时间
+
+
+            
         }
         public bool PrintInit(out string err) {
             err = "";
             server.DataReceived += server_DataReceived;
             //打印机检测
-            CheckPrintState(out err);
+           // CheckPrintState(out err);
             if (err != "")
             {
                 return false;
@@ -187,8 +192,9 @@ namespace SerialPortPrint
                 {
                     cmdData[5 + i] = OutBuffer[i];
                 }
-                PrintQueue.QueueList.Enqueue(cmdData);
-                CheckPrintState(out err);
+                //PrintQueue.QueueList.Enqueue(cmdData);
+                //CheckPrintState(out err);
+                SendData(cmdData, out err);
                 return true;
             }
             catch (Exception ex)
@@ -219,7 +225,7 @@ namespace SerialPortPrint
             }
             try
             {
-                byte[] data = SerialPortPrint.Pos.POS_PrintPicture(bitmap, 384, 0);
+                byte[] data = Pos.POS_PrintPicture(bitmap, 384, 0);
                 byte[] cmdData = new byte[data.Length + 6];
                 cmdData[0] = 0x1B;
                 cmdData[1] = 0x2A;
@@ -233,6 +239,7 @@ namespace SerialPortPrint
                 }
                 PrintQueue.QueueList.Enqueue(cmdData);
                 CheckPrintState(out err);
+                //SendData(cmdData, out err);
                 return true;
             }
             catch (Exception ex)

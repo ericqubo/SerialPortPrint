@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SerialPortPrint
+namespace PrintBase
 {
     /// <summary>
     /// 打印机队列管理
     /// </summary>
-    internal static class PrintQueue
+    public static class PrintQueue
     {
         /// <summary>
         /// 打印队列
