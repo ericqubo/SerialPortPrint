@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<resources>
-  <!-- 以下内容的 vendor-id、product-id就是USB的vid和pid了，请大家自己在Windows中找到这个设备的属性，检查设备的VID_PID值-->
-  <!-- 还要说明一点的是：Windows设备属性中看到的ID值是16进制表示的，必须转换成10进制，并配置 。-->
-  <!-- 测试用的亿捷U盘，Windows中显示的VID是090C，转换为十进制是2316，其他的道理是一样的 -->
-  <usb-device vendor-id="1659" product-id="8965"/>
-</resources>
